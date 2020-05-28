@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Store Name in Titles</name>
+    <code>store-name-in-titles</code>
+    <version>1.0</version>
+    <author>Naamã Lima</author>
+    <link>https://www.linkedin.com/in/naamaslima</link>
+ 
+    <file path="catalog/controller/common/header.php">
+        <operation>
+            <search><![CDATA[$data['title'] = $this->document->getTitle();]]></search>
+            <add position="after"><![CDATA[
+
+        if($_SERVER['QUERY_STRING'] != "") {
+			$data['title'] = $this->document->getTitle() .' - '. $this->config->get('config_meta_title');
+		}
+            ]]></add>
+        </operation>
+    </file>  
+    <file path="catalog/controller/product/product.php">
+        <operation>
+            <search><![CDATA[$this->document->setTitle($product_info['meta_title']);]]></search>
+            <add position="replace"><![CDATA[
+
+            if(!empty($category_info['name'])){
+				$this->document->setTitle($product_info['meta_title'].' - '.$category_info['name']);
+			} else {
+				$this->document->setTitle($product_info['meta_title']);
+			}
+            ]]></add>
+        </operation>
+    </file> 
+    
+</modification>
